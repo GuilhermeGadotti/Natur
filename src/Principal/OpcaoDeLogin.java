@@ -7,14 +7,17 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class OpcaoDeLogin extends JInternalFrame {
+public class OpcaoDeLogin extends JFrame {
 	
 	JButton btnAdministrador = new JButton("Administrador");
 	JButton btnFornecedor = new JButton("Fornecedor");
 	JButton btnCliente = new JButton("Cliente");
+	JButton btnCatador = new JButton("Catador");
 
 	/**
 	 * Launch the application.
@@ -36,28 +39,33 @@ public class OpcaoDeLogin extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OpcaoDeLogin() {
-		setClosable(true);
-		setBounds(100, 100, 450, 301);
+		setBounds(100, 100, 450, 304);
 		getContentPane().setLayout(null);
+		this.setLocationRelativeTo(null);
+		this.setExtendedState(MAXIMIZED_BOTH);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 270);
+		panel.setBounds(0, 0, 1012, 705);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblLogarComo = new JLabel("Logar como:");
 		lblLogarComo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblLogarComo.setBounds(120, 21, 175, 50);
+		lblLogarComo.setBounds(351, 187, 175, 50);
 		panel.add(lblLogarComo);
 		
-		btnAdministrador.setBounds(37, 114, 124, 23);
+		btnAdministrador.setBounds(188, 335, 124, 23);
 		panel.add(btnAdministrador);
 		
-		btnFornecedor.setBounds(171, 114, 89, 23);
+		btnFornecedor.setBounds(371, 335, 89, 23);
 		panel.add(btnFornecedor);
 		
-		btnCliente.setBounds(270, 114, 89, 23);
+		btnCliente.setBounds(489, 335, 89, 23);
 		panel.add(btnCliente);
+		
+		btnCatador.setBounds(613, 335, 89, 23);
+		
+		panel.add(btnCatador);
 
 	}
 }

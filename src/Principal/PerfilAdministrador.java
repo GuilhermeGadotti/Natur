@@ -2,11 +2,12 @@ package Principal;
 
 import java.awt.EventQueue;
 
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class PerfilAdministrador extends JInternalFrame {
+public class PerfilAdministrador extends JFrame {
 	private JTextField txtID;
 	private JTextField txtUsuario;
 	private JTextField txtSexo;

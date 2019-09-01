@@ -1,35 +1,30 @@
 package Principal;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import Beans.FornecedorBeans;
 import Dao.CadastrarDao;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
-import java.awt.event.ActionListener;
-import java.io.UnsupportedEncodingException;
-import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
-import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Font;
-
-public class CadastroFornecedor extends JInternalFrame {
+public class CadastroFornecedor extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtnmfornecedor;
@@ -52,6 +47,7 @@ public class CadastroFornecedor extends JInternalFrame {
 	private MaskFormatter MaskDtNasc;
 	JRadioButton rdbtnM = new JRadioButton("M");
 	JRadioButton rdbtnF = new JRadioButton("F");
+	JButton btnVoltar = new JButton("Voltar");
 
 	/**
 	 * Launch the application.
@@ -74,6 +70,9 @@ public class CadastroFornecedor extends JInternalFrame {
 	 */
 	public CadastroFornecedor() {
 		setFont(null);
+		this.setLocationRelativeTo(null);
+		this.setExtendedState(MAXIMIZED_BOTH);
+		
 		setTitle("Cadastro Fornecedor \r\n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 684, 741);
@@ -133,13 +132,13 @@ public class CadastroFornecedor extends JInternalFrame {
 		txttele.setColumns(10);
 		txttele.setOpaque(false);
 		txttele.setBorder(BorderFactory.createEmptyBorder());
-	
+
 		rdbtnM.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
 		rdbtnM.setBackground(Color.WHITE);
 		buttonGroup.add(rdbtnM);
 		rdbtnM.setBounds(376, 133, 49, 32);
 		contentPane.add(rdbtnM);
-		
+
 		rdbtnF.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
 		rdbtnF.setBackground(Color.WHITE);
 		buttonGroup.add(rdbtnF);
@@ -150,10 +149,19 @@ public class CadastroFornecedor extends JInternalFrame {
 		botcadastrar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CadastrasFornecedor();
+				if (!(txtnmfornecedor.getText().isEmpty() || txtcpf.getText().isEmpty() || txtdtnasc.getText().isEmpty()
+						|| txtemail.getText().isEmpty())) {
+					if (rdbtnF.isSelected() || rdbtnM.isSelected()) {
+						CadastrasFornecedor();
+					} else {
+						JOptionPane.showMessageDialog(null, "Informe o sexo!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Por favor, preencha os campos obritat√≥rios!");
+				}
 			}
 		});
-		botcadastrar.setBounds(110, 656, 79, 39);
+		botcadastrar.setBounds(111, 668, 79, 39);
 		botcadastrar.setBorderPainted(false);
 		botcadastrar.setContentAreaFilled(false);
 		botcadastrar.setFocusPainted(false);
@@ -163,13 +171,23 @@ public class CadastroFornecedor extends JInternalFrame {
 		botseguir.setBounds(324, 668, 89, 23);
 		contentPane.add(botseguir);
 
-		JButton botsair = new JButton("Sair");
-		botsair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnVoltar.setBounds(547, 668, 89, 23);
+		contentPane.add(btnVoltar);
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				txtnmfornecedor.setText("");
+				txtcep.setText("");
+				txtcpf.setText("");
+				txtdtnasc.setText("");
+				txttele.setText("");
+				txtconfsenha.setText("");
+				txtemail.setText("");
+				txtend.setText("");
+				txtsenha.setText("");
+				buttonGroup.clearSelection();
 			}
 		});
-		botsair.setBounds(547, 668, 89, 23);
-		contentPane.add(botsair);
 
 		txtsenha = new JPasswordField();
 		txtsenha.setBounds(53, 568, 295, 32);
@@ -193,10 +211,10 @@ public class CadastroFornecedor extends JInternalFrame {
 		JLabel lblImagemTela = new JLabel("");
 		lblImagemTela.setIcon(
 				new ImageIcon(CadastroFornecedor.class.getResource("/Imagens/TelaDeCadastro(final- 720p) (22).png")));
-		lblImagemTela.setBounds(0, 0, 668, 700);
+		lblImagemTela.setBounds(0, 0, 773, 730);
 		contentPane.add(lblImagemTela);
 	}
-		
+
 	public void CadastrasFornecedor() {
 		FornecedorBeans fb = new FornecedorBeans();
 
@@ -219,9 +237,9 @@ public class CadastroFornecedor extends JInternalFrame {
 		}
 		fb.setSexofornecedor(valorbot);
 		fb.setEmailfornecedor(txtemail.getText());
-		
+
 		if (!(fb.getSenhafornecedor().equals(fb.getConfsenhafornecedor()))) {
-			JOptionPane.showMessageDialog(null, "Senha inv·lida!", "AtenÁ„o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Senha inv√°lida!", "Aten√ß√£o", JOptionPane.ERROR_MESSAGE);
 			txtsenha.setText(null);
 			txtconfsenha.setText(null);
 
@@ -229,12 +247,13 @@ public class CadastroFornecedor extends JInternalFrame {
 			CadastrarDao cd = new CadastrarDao();
 			if (cd.checkCPF(fb)) {
 				cd.cadastrar(fb);
-				JOptionPane.showMessageDialog(null, "Cadastro Efetuado Com Sucesso! ", "AtenÁ„o",
+				JOptionPane.showMessageDialog(null, "Cadastro Efetuado Com Sucesso! ", "Aten√ß√£o",
 						JOptionPane.PLAIN_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(null, "CPF ja cadastrado.", "AtenÁ„o",
-						JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "CPF ja cadastrado.", "Aten√ß√£o", JOptionPane.WARNING_MESSAGE);
 			}
+		} else if (txtsenha.getPassword().equals("") || txtconfsenha.getPassword().equals("")) {
+			JOptionPane.showMessageDialog(null, "Campo de senha em branco!");
 		}
-	}	
+	}
 }
