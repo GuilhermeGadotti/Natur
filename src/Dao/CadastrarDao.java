@@ -38,7 +38,7 @@ public class CadastrarDao {
 			}
 		}
 		else {
-			System.out.println("Fornecedor enviado por parametro est· vazio!");
+			System.out.println("Fornecedor enviado por parametro est√° vazio!");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class CadastrarDao {
 			Conexao.FecharConexao(conn, pstmt, rs);
 			
 		} catch (Exception e) {
-			System.err.print("Erro na validaÁ„o do CPF. \n Erro: " + e.getMessage());
+			System.err.print("Erro na valida√ß√£o do CPF. \n Erro: " + e.getMessage());
 		}
 		return checkCPF;
 	}

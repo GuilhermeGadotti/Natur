@@ -33,7 +33,7 @@ public class AdministradorDao {
 			}
 			Conexao.FecharConexao(conn, pstmt, rs);
 		} catch (Exception e) {
-			System.out.println("Erro na validação do login do Administrador! \n Erro: " + e.getMessage());
+			System.out.println("Erro na validaÃ§Ã£o do login do Administrador! \n Erro: " + e.getMessage());
 		}
 		return check;
 	}

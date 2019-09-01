@@ -32,7 +32,7 @@ public class LoginDao {
 			Conexao.FecharConexao(conn, pstmt, rs);
 			
 		} catch (Exception ex) {
-			System.out.println("Erro na validação do login. \n Erro: " + ex.getMessage());
+			System.out.println("Erro na validaÃ§Ã£o do login. \n Erro: " + ex.getMessage());
 		}
 		return check;
 	}

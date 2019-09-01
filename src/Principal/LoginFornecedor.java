@@ -24,7 +24,7 @@ import Beans.UsuarioBean;
 import Dao.LoginDao;
 import javax.swing.JDesktopPane;
 
-public class LoginFornecedor extends JInternalFrame {
+public class LoginFornecedor extends JFrame {
 
 	/**
 	 * 
@@ -36,6 +36,7 @@ public class LoginFornecedor extends JInternalFrame {
 	private MaskFormatter MaskCpf;
 	UsuarioBean u = new UsuarioBean();
 	JButton btnVoltar = new JButton("");
+	JButton btnCadastro = new JButton("");
 
 
 	public static void main(String[] args) {
@@ -54,10 +55,7 @@ public class LoginFornecedor extends JInternalFrame {
 	public LoginFornecedor() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 376, 354);
-		setIconifiable(true);
-		setMaximizable(true);
-		setClosable(true);
+		setBounds(100, 100, 391, 361);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,10 +91,12 @@ public class LoginFornecedor extends JInternalFrame {
 
 				LoginDao Dao = new LoginDao();
 				if (Dao.checklogin(u)) {
-					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "AtenÁ„o",JOptionPane.PLAIN_MESSAGE );
+					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "Aten√ß√£o",JOptionPane.PLAIN_MESSAGE );
 					dispose();
+					txtCpf_fornecedor.setText("");
+					passSenha.setText("");
 				} else {
-					JOptionPane.showMessageDialog(null, "Usu·rio ou Senha incorretos", "AtenÁ„o", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Usu√°rio ou Senha incorretos", "Aten√ß√£o", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -119,8 +119,25 @@ public class LoginFornecedor extends JInternalFrame {
 		contentPane.add(CPF);
 
 		JLabel lblImagem = new JLabel("");
-		lblImagem.setBounds(0, 0, 360, 320);
+		lblImagem.setBounds(0, 0, 375, 328);
 		lblImagem.setIcon(new ImageIcon(LoginFornecedor.class.getResource("/Imagens/LoginMOD0408.png")));
 		contentPane.add(lblImagem);
+		
+		btnCadastro.setBounds(206, 248, 89, 28);
+		contentPane.add(btnCadastro);
+		
+		JButton btnIguuuuu = new JButton("Iguuuuu");
+		btnIguuuuu.setBounds(123, 11, 114, 28);
+		btnIguuuuu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				u.setCPF("069.611.849-10");
+				u.setSenha("321");
+				dispose();
+			}
+		});
+		btnIguuuuu.setBorderPainted(false);
+		btnIguuuuu.setContentAreaFilled(false);
+		contentPane.add(btnIguuuuu);
 	}
 }

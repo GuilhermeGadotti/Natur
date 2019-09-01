@@ -13,10 +13,12 @@ import Beans.ClienteBean;
 import Dao.ClienteDao;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class CadastroCliente extends JInternalFrame {
+public class CadastroCliente extends JFrame {
 	private JTextField txtNomeCliente;
 	private JTextField txtCNPJ;
 	private JTextField txtLocalizacao;
@@ -27,6 +29,7 @@ public class CadastroCliente extends JInternalFrame {
 	ClienteDao cd = new ClienteDao();
 	private JPasswordField txtSenha;
 	private JPasswordField txtConfirmarSenha;
+	JButton btnVoltar = new JButton("Voltar");
 
 	/**
 	 * Launch the application.
@@ -48,7 +51,6 @@ public class CadastroCliente extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public CadastroCliente() {
-		setClosable(true);
 		setBounds(100, 100, 598, 509);
 		getContentPane().setLayout(null);
 
@@ -137,6 +139,14 @@ public class CadastroCliente extends JInternalFrame {
 		});
 		btnCadastrar.setBounds(193, 361, 89, 23);
 		panel.add(btnCadastrar);
+		
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnVoltar.setBounds(311, 361, 89, 23);
+		panel.add(btnVoltar);
 	}
 
 	public void CadastrarCliente() {
@@ -154,7 +164,7 @@ public class CadastroCliente extends JInternalFrame {
 		cb.setTelefone_cliente(txtTelefoneCliente.getText());
 
 		if (!(senha.equals(confirmarSenha))) {
-			JOptionPane.showMessageDialog(null, "Senha inv·lida!", "AtenÁ„o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Senha inv√°lida!", "Aten√ß√£o", JOptionPane.ERROR_MESSAGE);
 			txtSenha.setText("");
 			txtConfirmarSenha.setText("");
 		} else {
@@ -164,7 +174,7 @@ public class CadastroCliente extends JInternalFrame {
 				dispose();
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "CNPJ j· cadastrado!", "AtenÁ„o", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "CNPJ j√° cadastrado!", "Aten√ß√£o", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

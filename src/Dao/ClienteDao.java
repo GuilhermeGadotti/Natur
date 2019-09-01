@@ -37,7 +37,7 @@ public class ClienteDao {
 			}
 		}
 		else {
-			System.out.println("Par‚metro 'ClienteBean cb' est· vazio.");
+			System.out.println("Par√¢metro 'ClienteBean cb' est√° vazio.");
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class ClienteDao {
 			}
 		}
 		else {
-			System.out.println("Par‚metro 'ClienteBean cb' est· vazio.");
+			System.out.println("Par√¢metro 'ClienteBean cb' est√° vazio.");
 		}
 	}
 	public boolean checkLoginCliente(ClienteLoginBean clb) {
@@ -92,7 +92,7 @@ public class ClienteDao {
 			}
 			Conexao.FecharConexao(conn, pstmt, rs);
 		} catch (Exception e) {
-			System.out.println("Erro na validaÁ„o do Login Cliente. \n Erro: " + e.getMessage());
+			System.out.println("Erro na valida√ß√£o do Login Cliente. \n Erro: " + e.getMessage());
 		}
 		return check;
 	}
@@ -121,7 +121,7 @@ public class ClienteDao {
 			}
 			Conexao.FecharConexao(conn, pstmt, rs);
 		} catch (Exception e) {
-			System.out.println("Falha na VerificaÁ„o do CNPJ! \n Erro: " + e.getMessage());
+			System.out.println("Falha na Verifica√ß√£o do CNPJ! \n Erro: " + e.getMessage());
 		}
 		return checkCNPJ;
 	}

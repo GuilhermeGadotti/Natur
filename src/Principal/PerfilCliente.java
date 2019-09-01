@@ -9,13 +9,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class PerfilCliente extends JInternalFrame {
-	private JTextField txtId;
-	private JTextField txtNomeCliente;
-	private JTextField txtCNPJ;
-	private JTextField txtEnderecoCliente;
-	private JTextField txtCepCliente;
-	private JTextField txtTelefoneCliente;
-	private JTextField txtEmailCliente;
+	public JTextField txtId;
+	public JTextField txtNomeCliente;
+	public JTextField txtCNPJ;
+	public JTextField txtEnderecoCliente;
+	public JTextField txtCepCliente;
+	public JTextField txtTelefoneCliente;
+	public JTextField txtEmailCliente;
 
 	/**
 	 * Launch the application.

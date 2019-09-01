@@ -13,10 +13,12 @@ import Beans.AdministradorLoginBean;
 import Dao.AdministradorDao;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginAdministrador extends JInternalFrame {
+public class LoginAdministrador extends JFrame {
 	private JTextField txtUsuario;
 	private JPasswordField txtSenha;
 	AdministradorLoginBean alb = new AdministradorLoginBean();
@@ -78,13 +80,13 @@ public class LoginAdministrador extends JInternalFrame {
 				alb.setSenha_adm(senha);
 				
 				if(ad.checkLogin(alb) == true){
-					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "Msg", JOptionPane.PLAIN_MESSAGE, frameIcon);
+					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "Msg", JOptionPane.PLAIN_MESSAGE);
 					dispose();
 					txtUsuario.setText("");
 					txtUsuario.setText("");
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Usuario ou senha inv·lidos!", "AtenÁ„o!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Usuario ou senha inv√°lidos!", "Aten√ß√£o!", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
