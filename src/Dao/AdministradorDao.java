@@ -94,5 +94,40 @@ public class AdministradorDao {
 		}
 
 	}
-
+	public void InserirNovoMaterial(int ID,String Material, double Preco){	//Add um novo material na tabela material
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String addMaterial  = "INSERT INTO material VALUES (default, ?)";
+		String buscaId 		= "SELECT id_material FROM material WHERE material = ?";
+		String addPrecoMaterial = "INSERT INTO preco_material values(?, ?)";
+		
+		try {
+			conn = Conexao.getConection();
+			pstmt = conn.prepareStatement(addMaterial);
+			pstmt.setString(1, Material);
+			pstmt.execute();
+			Conexao.FecharConexao(conn, pstmt);
+			
+			conn = Conexao.getConection();
+			pstmt = conn.prepareStatement(buscaId);
+			pstmt.setString(1, Material);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				ID = rs.getInt("id_material");
+			}
+			Conexao.FecharConexao(conn, pstmt, rs);
+			
+			conn = Conexao.getConection();
+			pstmt = conn.prepareStatement(addPrecoMaterial);
+			pstmt.setInt(1, ID);
+			pstmt.setDouble(2, Preco);
+			pstmt.execute();
+			Conexao.FecharConexao(conn, pstmt); 
+		} catch (Exception e) {
+			System.out.println("Falha ao inserir novo material! \n Erro: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }

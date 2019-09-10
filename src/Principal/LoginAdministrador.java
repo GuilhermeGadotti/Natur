@@ -8,22 +8,28 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import Beans.AdministradorLoginBean;
 import Dao.AdministradorDao;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+
 public class LoginAdministrador extends JFrame {
 	private JTextField txtUsuario;
 	private JPasswordField txtSenha;
+	private MaskFormatter MaskCpf;
 	AdministradorLoginBean alb = new AdministradorLoginBean();
 	AdministradorDao ad = new AdministradorDao();
-	JButton btnVoltar = new JButton("Voltar");
+	JButton btnVoltar = new JButton("");
 
 	/**
 	 * Launch the application.
@@ -45,56 +51,84 @@ public class LoginAdministrador extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginAdministrador() {
-		setBounds(100, 100, 244, 342);
+		setBounds(100, 100, 444, 421);
 		getContentPane().setLayout(null);
-		
+
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 228, 312);
+		panel.setBounds(0, 0, 435, 382);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		
-		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
-		lblUsurio.setBounds(29, 56, 60, 14);
-		panel.add(lblUsurio);
-		
-		txtUsuario = new JTextField();
-		txtUsuario.setBounds(29, 81, 145, 20);
+
+		try {
+			MaskCpf = new MaskFormatter("###.###.###-##");
+		} catch (Exception e) {
+			System.out.println("Falha na criação da mascara! \n Erro: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		txtUsuario = new JFormattedTextField(MaskCpf);
+		txtUsuario.setBounds(67, 163, 299, 20);
+		txtUsuario.setOpaque(false);
+		txtUsuario.setBorder(BorderFactory.createEmptyBorder());
 		panel.add(txtUsuario);
 		txtUsuario.setColumns(10);
-		
-		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(29, 120, 60, 14);
-		panel.add(lblSenha);
-		
+
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(29, 145, 145, 20);
+		txtSenha.setBounds(67, 223, 299, 20);
+		txtSenha.setOpaque(false);
+		txtSenha.setBorder(BorderFactory.createEmptyBorder());
 		panel.add(txtSenha);
 		txtSenha.setColumns(10);
-		
-		JButton btnLogin = new JButton("Login");
+
+		JButton btnLogin = new JButton("");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String senha = String.valueOf(txtSenha.getPassword());
-				
-				alb.setUsuario_adm(txtUsuario.getText());
-				alb.setSenha_adm(senha);
-				
-				if(ad.checkLogin(alb) == true){
-					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "Msg", JOptionPane.PLAIN_MESSAGE);
-					dispose();
-					txtUsuario.setText("");
-					txtUsuario.setText("");
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Atenção!", JOptionPane.WARNING_MESSAGE);
-				}
+				login();
 			}
 		});
-		btnLogin.setBounds(24, 208, 89, 23);
+		btnLogin.setContentAreaFilled(false);
+		btnLogin.setBounds(127, 288, 79, 35);
 		panel.add(btnLogin);
-		
-		btnVoltar.setBounds(123, 208, 89, 23);
+
+		btnVoltar.setBounds(216, 288, 79, 35);
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				OpcaoDeLogin opcaoLogin = new OpcaoDeLogin();
+				opcaoLogin.setVisible(true);
+			}
+		});
+		btnVoltar.setContentAreaFilled(false);
 		panel.add(btnVoltar);
 
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(LoginAdministrador.class.getResource("/Imagens/LoginProprietario.jpg")));
+		label.setBounds(0, 0, 425, 382);
+		panel.add(label);
 	}
+
+	public void login() {
+
+		String senha = String.valueOf(txtSenha.getPassword());
+
+		if (!(txtUsuario.getText().isEmpty() || senha.isEmpty())) {
+			alb.setUsuario_adm(txtUsuario.getText());
+			alb.setSenha_adm(senha);
+
+			if (ad.checkLogin(alb)) {
+				JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!", "Msg", JOptionPane.PLAIN_MESSAGE);
+				dispose();
+				txtUsuario.setText("");
+				txtUsuario.setText("");
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Atenção!",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Preencha os campos!", "Atenção!", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
 }

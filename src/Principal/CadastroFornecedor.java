@@ -23,6 +23,7 @@ import javax.swing.text.MaskFormatter;
 
 import Beans.FornecedorBeans;
 import Dao.CadastrarDao;
+import Email.EmailSimples;
 
 public class CadastroFornecedor extends JFrame {
 
@@ -33,7 +34,6 @@ public class CadastroFornecedor extends JFrame {
 	private JTextField txtend;
 	private JTextField txtcep;
 	private JTextField txttele;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JPasswordField txtsenha;
 	private JPasswordField txtconfsenha;
 	private JTextField txtemail;
@@ -45,8 +45,6 @@ public class CadastroFornecedor extends JFrame {
 	private MaskFormatter MaskCEP;
 	private MaskFormatter MaskTelefone;
 	private MaskFormatter MaskDtNasc;
-	JRadioButton rdbtnM = new JRadioButton("M");
-	JRadioButton rdbtnF = new JRadioButton("F");
 	JButton btnVoltar = new JButton("Voltar");
 
 	/**
@@ -72,7 +70,7 @@ public class CadastroFornecedor extends JFrame {
 		setFont(null);
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(MAXIMIZED_BOTH);
-		
+
 		setTitle("Cadastro Fornecedor \r\n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 684, 741);
@@ -133,32 +131,11 @@ public class CadastroFornecedor extends JFrame {
 		txttele.setOpaque(false);
 		txttele.setBorder(BorderFactory.createEmptyBorder());
 
-		rdbtnM.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
-		rdbtnM.setBackground(Color.WHITE);
-		buttonGroup.add(rdbtnM);
-		rdbtnM.setBounds(376, 133, 49, 32);
-		contentPane.add(rdbtnM);
-
-		rdbtnF.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
-		rdbtnF.setBackground(Color.WHITE);
-		buttonGroup.add(rdbtnF);
-		rdbtnF.setBounds(460, 133, 49, 32);
-		contentPane.add(rdbtnF);
-
 		JButton botcadastrar = new JButton("");
 		botcadastrar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (!(txtnmfornecedor.getText().isEmpty() || txtcpf.getText().isEmpty() || txtdtnasc.getText().isEmpty()
-						|| txtemail.getText().isEmpty())) {
-					if (rdbtnF.isSelected() || rdbtnM.isSelected()) {
-						CadastrasFornecedor();
-					} else {
-						JOptionPane.showMessageDialog(null, "Informe o sexo!");
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Por favor, preencha os campos obritatórios!");
-				}
+				CadastrasFornecedor();
 			}
 		});
 		botcadastrar.setBounds(111, 668, 79, 39);
@@ -185,7 +162,6 @@ public class CadastroFornecedor extends JFrame {
 				txtemail.setText("");
 				txtend.setText("");
 				txtsenha.setText("");
-				buttonGroup.clearSelection();
 			}
 		});
 
@@ -220,40 +196,44 @@ public class CadastroFornecedor extends JFrame {
 
 		String senha = String.valueOf(txtsenha.getPassword());
 		String ConfirmarSenha = String.valueOf(txtconfsenha.getPassword());
+		boolean validaEmail = EmailSimples.validarEmail(txtemail.getText());
 
-		fb.setNmfornecedoor(txtnmfornecedor.getText());
-		fb.setCpffornecedor(txtcpf.getText());
-		fb.setSenhafornecedor(senha);
-		fb.setConfsenhafornecedor(ConfirmarSenha);
-		fb.setDtnascfornecedor(txtdtnasc.getText());
-		fb.setEndfornecedor(txtend.getText());
-		fb.setCepfornecedor(txtcep.getText());
-		fb.setTelefornecedor(txttele.getText());
-		String valorbot = null;
-		if (rdbtnM.isSelected()) {
-			valorbot = "M";
-		} else if (rdbtnF.isSelected()) {
-			valorbot = "F";
-		}
-		fb.setSexofornecedor(valorbot);
-		fb.setEmailfornecedor(txtemail.getText());
+		if (!(txtnmfornecedor.getText().isEmpty() || txtcpf.getText().isEmpty() || txtdtnasc.getText().isEmpty()
+				|| txtemail.getText().isEmpty())) {
+			if (validaEmail) {
+				fb.setNmfornecedoor(txtnmfornecedor.getText());
+				fb.setCpffornecedor(txtcpf.getText());
+				fb.setSenhafornecedor(senha);
+				fb.setConfsenhafornecedor(ConfirmarSenha);
+				fb.setDtnascfornecedor(txtdtnasc.getText());
+				fb.setEndfornecedor(txtend.getText());
+				fb.setCepfornecedor(txtcep.getText());
+				fb.setTelefornecedor(txttele.getText());
+				fb.setEmailfornecedor(txtemail.getText());
 
-		if (!(fb.getSenhafornecedor().equals(fb.getConfsenhafornecedor()))) {
-			JOptionPane.showMessageDialog(null, "Senha inválida!", "Atenção", JOptionPane.ERROR_MESSAGE);
-			txtsenha.setText(null);
-			txtconfsenha.setText(null);
+				if (!(fb.getSenhafornecedor().equals(fb.getConfsenhafornecedor()))) {
+					JOptionPane.showMessageDialog(null, "Senha inválida!", "Atenção", JOptionPane.ERROR_MESSAGE);
+					txtsenha.setText(null);
+					txtconfsenha.setText(null);
 
-		} else if (fb.getSenhafornecedor().equals(fb.getConfsenhafornecedor())) {
-			CadastrarDao cd = new CadastrarDao();
-			if (cd.checkCPF(fb)) {
-				cd.cadastrar(fb);
-				JOptionPane.showMessageDialog(null, "Cadastro Efetuado Com Sucesso! ", "Atenção",
-						JOptionPane.PLAIN_MESSAGE);
+				} else if (fb.getSenhafornecedor().equals(fb.getConfsenhafornecedor())) {
+					CadastrarDao cd = new CadastrarDao();
+					if (cd.checkCPF(fb)) {
+						cd.cadastrar(fb);
+						JOptionPane.showMessageDialog(null, "Cadastro Efetuado Com Sucesso! ", "Atenção",
+								JOptionPane.PLAIN_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "CPF ja cadastrado.", "Atenção",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
+
 			} else {
-				JOptionPane.showMessageDialog(null, "CPF ja cadastrado.", "Atenção", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "E-mail inválido! Por favor, preencha com um email válido.",
+						"Erro!", JOptionPane.WARNING_MESSAGE);
 			}
-		} else if (txtsenha.getPassword().equals("") || txtconfsenha.getPassword().equals("")) {
-			JOptionPane.showMessageDialog(null, "Campo de senha em branco!");
+		} else {
+			JOptionPane.showMessageDialog(null, "Por favor, preencha os campos obritatórios!");
 		}
 	}
 }

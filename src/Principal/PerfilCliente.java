@@ -2,13 +2,16 @@ package Principal;
 
 import java.awt.EventQueue;
 
-import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
-public class PerfilCliente extends JInternalFrame {
+public class PerfilCliente extends JFrame {
 	public JTextField txtId;
 	public JTextField txtNomeCliente;
 	public JTextField txtCNPJ;
@@ -39,79 +42,80 @@ public class PerfilCliente extends JInternalFrame {
 	public PerfilCliente() {
 		setBounds(100, 100, 699, 438);
 		getContentPane().setLayout(null);
+		this.setLocationRelativeTo(null);
+		this.setExtendedState(MAXIMIZED_BOTH);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 681, 408);
+		panel.setBounds(0, 0, 1012, 733);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(21, 11, 46, 14);
-		panel.add(lblId);
-		
 		txtId = new JTextField();
-		txtId.setBounds(21, 36, 86, 20);
+		txtId.setBounds(262, 266, 86, 20);
 		panel.add(txtId);
 		txtId.setColumns(10);
 		
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(148, 11, 46, 14);
-		panel.add(lblNome);
-		
 		txtNomeCliente = new JTextField();
-		txtNomeCliente.setBounds(148, 36, 272, 20);
+		txtNomeCliente.setBounds(370, 260, 274, 33);
 		panel.add(txtNomeCliente);
 		txtNomeCliente.setColumns(10);
 		
-		JLabel lblCnpj = new JLabel("CNPJ:");
-		lblCnpj.setBounds(21, 74, 46, 14);
-		panel.add(lblCnpj);
-		
 		txtCNPJ = new JTextField();
-		txtCNPJ.setBounds(21, 99, 215, 20);
+		txtCNPJ.setBounds(370, 336, 274, 33);
 		panel.add(txtCNPJ);
 		txtCNPJ.setColumns(10);
 		
-		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
-		lblEndereo.setBounds(21, 138, 86, 14);
-		panel.add(lblEndereo);
-		
 		txtEnderecoCliente = new JTextField();
-		txtEnderecoCliente.setBounds(21, 163, 242, 20);
+		txtEnderecoCliente.setBounds(370, 420, 173, 33);
 		panel.add(txtEnderecoCliente);
 		txtEnderecoCliente.setColumns(10);
 		
-		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setBounds(281, 138, 46, 14);
-		panel.add(lblCep);
-		
 		txtCepCliente = new JTextField();
-		txtCepCliente.setBounds(279, 163, 156, 20);
+		txtCepCliente.setBounds(553, 418, 91, 36);
 		panel.add(txtCepCliente);
 		txtCepCliente.setColumns(10);
 		
-		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(21, 210, 86, 14);
-		panel.add(lblTelefone);
-		
 		txtTelefoneCliente = new JTextField();
-		txtTelefoneCliente.setBounds(21, 237, 173, 20);
+		txtTelefoneCliente.setBounds(370, 501, 173, 33);
 		panel.add(txtTelefoneCliente);
 		txtTelefoneCliente.setColumns(10);
 		
-		JLabel lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(223, 210, 46, 14);
-		panel.add(lblEmail);
-		
 		txtEmailCliente = new JTextField();
-		txtEmailCliente.setBounds(223, 237, 197, 20);
+		txtEmailCliente.setBounds(370, 573, 274, 33);
 		panel.add(txtEmailCliente);
 		txtEmailCliente.setColumns(10);
 		
 		JButton btnAlterarDados = new JButton("Alterar Dados");
-		btnAlterarDados.setBounds(94, 336, 131, 23);
+		btnAlterarDados.setBounds(370, 661, 131, 23);
 		panel.add(btnAlterarDados);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JanelaPrincipal janelaPrincipal = new JanelaPrincipal();
+				janelaPrincipal.btnDeslogar.setVisible(true);
+				janelaPrincipal.btnDeslogar.setEnabled(true);
+				janelaPrincipal.logado = "Cliente";
+				janelaPrincipal.CNPJ = txtCNPJ.getText();
+				janelaPrincipal.setVisible(true);
+				dispose();
+			}
+		});
+		btnVoltar.setBounds(553, 661, 89, 23);
+		panel.add(btnVoltar);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(742, 173, 166, 214);
+		panel.add(label);
+		
+		JLabel lblImagem = new JLabel("");
+		lblImagem.setIcon(new ImageIcon(PerfilCliente.class.getResource("/Imagens/PerfilCliente.jpg")));
+		lblImagem.setBounds(0, 0, 1012, 733);
+		panel.add(lblImagem);
+		
+		JButton btnImagemPerfil = new JButton("");
+		btnImagemPerfil.setBounds(742, 425, 89, 23);
+		panel.add(btnImagemPerfil);
 
 	}
-
 }
