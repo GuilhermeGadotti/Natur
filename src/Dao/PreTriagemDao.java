@@ -73,11 +73,11 @@ public class PreTriagemDao {
 			System.out.println("Erro ao inserir na tabela Fornecedor_PreTriagem! \n Erro: " + e.getMessage());
 		}
 	}
-	public List<Integer> BuscaIDPreTriagem(int Linhas) {
+	public ArrayList<Integer> BuscaIDPreTriagem(int Linhas) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Integer> Id_PreTriagem = new ArrayList<Integer>();
+		ArrayList<Integer> Id_PreTriagem = new ArrayList<Integer>();
 		
 		try {
 			conn = Conexao.getConection();
@@ -92,7 +92,7 @@ public class PreTriagemDao {
 			Conexao.FecharConexao(conn, pstmt, rs);
 		} catch (Exception e) {
 			System.out.println("Erro ao selecionar ID_PreTriagem! \n Erro: " + e.getMessage());
-		}	
-		return Id_PreTriagem;
+		}
+		return Id_PreTriagem;	
 	}
 }

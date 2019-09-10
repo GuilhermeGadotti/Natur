@@ -1,8 +1,8 @@
 package Principal;
 
 import java.awt.EventQueue;
+import java.awt.Graphics2D;
 
-import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,39 +10,46 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Beans.PerfilBean;
+import Conexao.Conexao;
 import Dao.PerfilFornecedorDao;
 import ResizeImage.RedimencionarImagemPerfil;
 
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 
 public class PerfilFornecedor extends JFrame {
-	public JTextField txtid;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JTextField txtNome;
 	public JTextField txtCPF;
-	public JTextField txtDtNasc;
 	public JTextField txtEndereco;
 	public JTextField txtCep;
 	public JTextField txtEmail;
 	public JTextField txtTelefone;
 	PerfilBean pb = new PerfilBean();
 	PerfilFornecedorDao pfd = new PerfilFornecedorDao();
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	JRadioButton rdbtnMasc = new JRadioButton("Masc");
-	JRadioButton rdbtnFem = new JRadioButton("Fem");
 	JLabel lblImagemPerfil = new JLabel("");
 	private JTextField txtPath;
+	private JButton btnVoltar;
+	File arquivo;
 
 	/**
 	 * Launch the application.
@@ -70,121 +77,116 @@ public class PerfilFornecedor extends JFrame {
 		this.setExtendedState(MAXIMIZED_BOTH);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1012, 639);
+		panel.setBounds(0, 0, 1012, 733);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		txtid = new JTextField();
-		txtid.setBounds(58, 143, 49, 30);
-		panel.add(txtid);
-		txtid.setColumns(10);
-		txtid.setOpaque(false);
-		txtid.setBorder(BorderFactory.createEmptyBorder());
-
 		txtNome = new JTextField();
-		txtNome.setBounds(141, 143, 294, 30);
+		txtNome.setBounds(370, 256, 276, 30);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setOpaque(false);
 		txtNome.setBorder(BorderFactory.createEmptyBorder());
 
 		txtCPF = new JTextField();
-		txtCPF.setBounds(58, 357, 213, 30);
+		txtCPF.setBounds(370, 337, 276, 30);
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
 		txtCPF.setOpaque(false);
 		txtCPF.setBorder(BorderFactory.createEmptyBorder());
 
-		txtDtNasc = new JTextField();
-		txtDtNasc.setBounds(58, 284, 213, 30);
-		panel.add(txtDtNasc);
-		txtDtNasc.setColumns(10);
-		txtDtNasc.setOpaque(false);
-		txtDtNasc.setBorder(BorderFactory.createEmptyBorder());
-
 		txtEndereco = new JTextField();
-		txtEndereco.setBounds(248, 208, 396, 36);
+		txtEndereco.setBounds(370, 417, 169, 30);
 		panel.add(txtEndereco);
 		txtEndereco.setColumns(10);
 		txtEndereco.setOpaque(false);
 		txtEndereco.setBorder(BorderFactory.createEmptyBorder());
 
 		txtCep = new JTextField();
-		txtCep.setBounds(58, 208, 177, 36);
+		txtCep.setBounds(561, 417, 85, 30);
 		panel.add(txtCep);
 		txtCep.setColumns(10);
 		txtCep.setOpaque(false);
 		txtCep.setBorder(BorderFactory.createEmptyBorder());
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(58, 500, 292, 36);
+		txtEmail.setBounds(370, 573, 276, 30);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 		txtEmail.setOpaque(false);
 		txtEmail.setBorder(BorderFactory.createEmptyBorder());
 
 		txtTelefone = new JTextField();
-		txtTelefone.setBounds(57, 429, 177, 36);
+		txtTelefone.setBounds(370, 501, 169, 30);
 		panel.add(txtTelefone);
 		txtTelefone.setColumns(10);
 		txtTelefone.setOpaque(false);
 		txtTelefone.setBorder(BorderFactory.createEmptyBorder());
 
-		buttonGroup.add(rdbtnMasc);
-		rdbtnMasc.setBackground(Color.WHITE);
-		rdbtnMasc.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
-		rdbtnMasc.setBounds(447, 152, 80, 23);
-		panel.add(rdbtnMasc);
-
-		buttonGroup.add(rdbtnFem);
-		rdbtnFem.setBackground(Color.WHITE);
-		rdbtnFem.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
-		rdbtnFem.setBounds(529, 150, 88, 23);
-		panel.add(rdbtnFem);
-
 		JButton btnAlterarDados = new JButton("");
 		btnAlterarDados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pb.setId_fornecedor(Integer.parseInt(txtid.getText()));
+				pfd.PerfilFornecedor(txtCPF.getText(), pb);
+				
 				pb.setNome_fornecedor(txtNome.getText());
 				pb.setCep_fornecedor(txtCep.getText());
 				pb.setEndereco_fornecedor(txtEndereco.getText());
-				pb.setDtNasc_fornecedor(txtDtNasc.getText());
 				pb.setCpf_fornecedor(txtCPF.getText());
 				pb.setTele_fornecedor(txtTelefone.getText());
 				pb.setEmail_fornecedor(txtEmail.getText());
-				JOptionPane.showMessageDialog(null, "foi alterado");
-
+				pb.setImagemPerfil(getImage());
+				
 				pfd.AtualizarDadosFornecedor(pb);
+				JOptionPane.showMessageDialog(null, "foi alterado");
 			}
 		});
-		btnAlterarDados.setBounds(230, 585, 109, 43);
+		btnAlterarDados.setBounds(410, 645, 109, 42);
 		panel.add(btnAlterarDados);
 		btnAlterarDados.setBorderPainted(false);
 		btnAlterarDados.setFocusPainted(false);
 		btnAlterarDados.setContentAreaFilled(false);
 
-		JButton btnCarregarImagem = new JButton("Carregar Imagem");
+		JButton btnCarregarImagem = new JButton("");
 		btnCarregarImagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BuscarImg();
+				getImage();
 			}
 		});
-		btnCarregarImagem.setBounds(560, 429, 89, 23);
+		btnCarregarImagem.setBorderPainted(false);
+		btnCarregarImagem.setFocusPainted(false);
+		btnCarregarImagem.setContentAreaFilled(false);
+		btnCarregarImagem.setBounds(738, 170, 165, 212);
 		panel.add(btnCarregarImagem);
 
 		txtPath = new JTextField();
-		txtPath.setBounds(447, 516, 213, 20);
+		txtPath.setBounds(718, 474, 213, 20);
 		panel.add(txtPath);
 		txtPath.setColumns(10);
 
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JanelaPrincipal janelaPrincipal = new JanelaPrincipal();
+				janelaPrincipal.btnDeslogar.setVisible(true);
+				janelaPrincipal.btnDeslogar.setEnabled(true);
+				janelaPrincipal.logado = "Fornecedor";
+				janelaPrincipal.CPF = txtCPF.getText();
+				janelaPrincipal.setVisible(true);
+				dispose();
+			}
+		});
+		btnVoltar.setBounds(530, 645, 89, 42);
+		panel.add(btnVoltar);
+
 		lblImagemPerfil.setBackground(Color.GRAY);
-		lblImagemPerfil.setBounds(320, 284, 150, 200);
+		lblImagemPerfil.setBounds(738, 170, 165, 212);
 		panel.add(lblImagemPerfil);
 
 		JLabel lblImagem = new JLabel("");
-		lblImagem.setIcon(new ImageIcon(PerfilFornecedor.class.getResource("/Imagens/TelaPerfil.png")));
-		lblImagem.setBounds(0, 0, 1012, 706);
+		lblImagem.setIcon(new ImageIcon(PerfilFornecedor.class.getResource("/Imagens/PerfilFornecedor.jpg")));
+		lblImagem.setBounds(0, 0, 1012, 733);
 		panel.add(lblImagem);
 
 	}
@@ -196,29 +198,93 @@ public class PerfilFornecedor extends JFrame {
 		filechooser.setFileFilter(filtro);
 		filechooser.addChoosableFileFilter(filtro);
 		filechooser.setAcceptAllFileFilterUsed(false);
+		filechooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		filechooser.setCurrentDirectory(new File("C:/"));
 
 		int i = filechooser.showSaveDialog(null);
 
 		if (i == 1) {
 			txtPath.setText("");
 		} else {
-			File arquivo = filechooser.getSelectedFile();
+			arquivo = filechooser.getSelectedFile();
 
 			String InputImagePath = arquivo.getPath();
-			String outputImagePath = "C:/Users/Alunos/Desktop/ImagemRedimencionada.png";
+			/*
+			 * String outputImagePath =
+			 * "C:\\Users\\Igor Assis\\Desktop\\ImagemRedimencionada.jpg";
+			 */
 			RedimencionarImagemPerfil Resize = new RedimencionarImagemPerfil();
 
 			try {
-				int scaledWidth = 150;
-				int scaledHeight = 200;
-				Resize.resize(InputImagePath, outputImagePath, scaledWidth, scaledHeight);
-				;
-
+				int scaledWidth = lblImagemPerfil.getWidth();
+				int scaledHeight = lblImagemPerfil.getHeight();
+				Resize.resize(InputImagePath, InputImagePath, scaledWidth, scaledHeight);
 			} catch (IOException ex) {
 				System.out.println("Erro ao redimencionar a imagem! \n Erro: " + ex.getMessage());
 				ex.printStackTrace();
 			}
-			lblImagemPerfil.setIcon(new ImageIcon(outputImagePath));
+			lblImagemPerfil.setIcon(new ImageIcon(InputImagePath));
 		}
 	}
+
+	private byte[] getImage() {
+		boolean isPng = false;
+		if (arquivo != null) {
+			JOptionPane.showMessageDialog(null, "aaaaaaaaaa");
+			isPng = arquivo.getName().endsWith(".png");
+			try {
+				BufferedImage image = ImageIO.read(arquivo);
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				int type = BufferedImage.TYPE_INT_RGB;
+
+				if (isPng) {
+					type = BufferedImage.BITMASK;
+				}
+				BufferedImage novaImagem = new BufferedImage(lblImagemPerfil.getWidth(), lblImagemPerfil.getHeight(),
+						type);
+				Graphics2D g = novaImagem.createGraphics();
+				g.setComposite(AlphaComposite.Src);
+				g.drawImage(image, 0, 0, lblImagemPerfil.getWidth() - 5, lblImagemPerfil.getHeight() - 10, null);
+
+				if (isPng) {
+					ImageIO.write(novaImagem, ".png", out);
+				} else {
+					ImageIO.write(novaImagem, ".jpg", out);
+				}
+				out.flush();
+				byte[] byteArray = out.toByteArray();
+				out.close();
+
+				return byteArray;
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	protected int RecuperarImg(File f){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			String sql = "UPDATE fornecedor SET img_fornecedor =? WHERE id_fornecedor =?";
+			try {
+				conn = Conexao.getConection();
+				pstmt = conn.prepareStatement(sql);
+				InputStream is = new FileInputStream(f);
+				byte[] bytes = new byte[(int)f.length()];
+
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		return 0;
+		
+		
+		
+		
+	}
+	
+	
 }

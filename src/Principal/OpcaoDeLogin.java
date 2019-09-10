@@ -11,12 +11,13 @@ import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class OpcaoDeLogin extends JFrame {
 	
-	JButton btnAdministrador = new JButton("Administrador");
-	JButton btnFornecedor = new JButton("Fornecedor");
-	JButton btnCliente = new JButton("Cliente");
+	JButton btnAdministrador = new JButton();
+	JButton btnFornecedor = new JButton();
+	JButton btnCliente = new JButton();
 	JButton btnCatador = new JButton("Catador");
 
 	/**
@@ -45,27 +46,67 @@ public class OpcaoDeLogin extends JFrame {
 		this.setExtendedState(MAXIMIZED_BOTH);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1012, 705);
+		panel.setBounds(0, 0, 1304, 741);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblLogarComo = new JLabel("Logar como:");
-		lblLogarComo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblLogarComo.setBounds(351, 187, 175, 50);
-		panel.add(lblLogarComo);
-		
-		btnAdministrador.setBounds(188, 335, 124, 23);
+		btnAdministrador.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LoginAdministrador loginAdm = new LoginAdministrador();
+				loginAdm.setVisible(true);
+				dispose();
+			}
+		});
+		btnAdministrador.setContentAreaFilled(false);
+		btnAdministrador.setBounds(703, 258, 218, 229);
 		panel.add(btnAdministrador);
 		
-		btnFornecedor.setBounds(371, 335, 89, 23);
+		btnFornecedor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LoginFornecedor loginFornecedor = new LoginFornecedor();
+				loginFornecedor.setVisible(true);
+				dispose();
+			}
+		});
+		btnFornecedor.setContentAreaFilled(false);
+		btnFornecedor.setBounds(98, 258, 218, 229);
 		panel.add(btnFornecedor);
 		
-		btnCliente.setBounds(489, 335, 89, 23);
+		btnCliente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LoginCliente loginCliente = new LoginCliente();
+				loginCliente.setVisible(true);
+				dispose();
+			}
+		});
+		btnCliente.setContentAreaFilled(false);
+		btnCliente.setBounds(404, 258, 218, 229);
 		panel.add(btnCliente);
 		
-		btnCatador.setBounds(613, 335, 89, 23);
+		btnCatador.setBounds(722, 604, 89, 23);
 		
 		panel.add(btnCatador);
+		
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JanelaPrincipal janelaPrincipal = new JanelaPrincipal();
+				janelaPrincipal.setVisible(true);
+				dispose();
+			}
+		});
+		btnVoltar.setContentAreaFilled(false);
+		btnVoltar.setBounds(449, 514, 133, 56);
+		panel.add(btnVoltar);
+		
+		JLabel lblImgFundo = new JLabel("");
+		lblImgFundo.setIcon(new ImageIcon(OpcaoDeLogin.class.getResource("/Imagens/LogarComo.jpg")));
+		lblImgFundo.setBounds(0, 0, 1304, 741);
+		panel.add(lblImgFundo);
 
 	}
 }
